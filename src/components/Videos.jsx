@@ -28,7 +28,7 @@ const Videos = ({ users, tracks, userName, usersInCall, myCamera }) => {
   if (isLoading) return <Typography>Loading...</Typography>;
 
   return (
-    <Grid container direction="row">
+    <Grid container direction="row" justifyContent="center" alignItems="center">
       <Grid
         item
         container
@@ -36,7 +36,7 @@ const Videos = ({ users, tracks, userName, usersInCall, myCamera }) => {
         direction="column"
         sx={{
           backgroundColor: "#FBBF77",
-          marginTop: "0.5rem",
+          marginTop: "2rem",
           padding: "0.5rem",
           height: "50%",
           borderRadius: "0.25rem",
@@ -81,18 +81,17 @@ const Videos = ({ users, tracks, userName, usersInCall, myCamera }) => {
               )}
             </Grid>
             <Grid item>
-              {user._audio_muted_ !== undefined &&
-                (user._audio_muted_ ? (
-                  <MicOffIcon color="secondary" />
-                ) : (
-                  <MicIcon color="primary" />
-                ))}
+              {user._audio_muted_ ? (
+                <MicOffIcon color="secondary" />
+              ) : (
+                <MicIcon color="primary" />
+              )}
             </Grid>
           </Grid>
         ))}
       </Grid>
 
-      {/* Video Wrapper for Current User: START */}
+      {/* Video Wrapper for Current User */}
       <Grid
         container
         item
@@ -100,9 +99,9 @@ const Videos = ({ users, tracks, userName, usersInCall, myCamera }) => {
         justifyContent="center"
         alignItems="center"
         direction="column"
+        height="100%"
         sx={{
-          padding: "2rem",
-          height: "20%",
+          paddingTop: "6%",
         }}
         gap={2}
       >

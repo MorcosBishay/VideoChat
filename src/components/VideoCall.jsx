@@ -54,7 +54,7 @@ const VideoCall = ({
         if (mediaType === "audio") {
           user.audioTrack.play();
           await handleUsers((prev) => {
-            return prev.map((ussr) => (ussr.uid == user.uid ? user : ussr));
+            return prev.map((ussr) => (ussr.uid === user.uid ? user : ussr));
           });
         }
       });
@@ -65,7 +65,7 @@ const VideoCall = ({
           if (user.audioTrack) user.audioTrack?.stop();
           if (user.videoTrack)
             await handleUsers((prev) => {
-              return prev.map((ussr) => (ussr.uid == user.uid ? user : ussr));
+              return prev.map((ussr) => (ussr.uid === user.uid ? user : ussr));
             });
         }
         if (mediaType === "video") {
@@ -107,8 +107,8 @@ const VideoCall = ({
   if (isLoading) return <div>Loading...</div>;
 
   return (
-    <Grid container direction="column" sx={{ height: "100%" }}>
-      <Grid item sx={{ height: "5%" }} xs={2}>
+    <Grid container direction="row" sx={{ height: "100%" }} gap={2}>
+      <Grid item sx={{ height: "5%" }} xs={12}>
         {ready && tracks && (
           <Grid
             container
@@ -117,6 +117,7 @@ const VideoCall = ({
             direction="column"
             sx={{
               backgroundColor: "#FBBF77",
+              borderRadius: "10px",
             }}
           >
             <Grid item>
@@ -136,7 +137,7 @@ const VideoCall = ({
           </Grid>
         )}
       </Grid>
-      <Grid item sx={{ height: "95%" }} xs={10}>
+      <Grid item sx={{ height: "95%" }} xs={12}>
         {start && tracks && (
           <Videos
             tracks={tracks}

@@ -87,7 +87,7 @@ const VideoChat = () => {
   return (
     <>
       {inCall ? (
-        <Grid container>
+        <Grid container spacing={1}>
           <Grid item xs={9}>
             <VideoCall
               users={users}
