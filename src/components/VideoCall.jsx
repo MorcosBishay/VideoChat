@@ -21,11 +21,11 @@ const VideoCall = ({
   handleSignOut,
 }) => {
   const client = useClient();
+
   const { ready, tracks } = useMicrophoneAndCameraTracks();
   const [start, setStart] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [myCamera, setMyCamera] = useState(true);
-
   const [usersInCall, setUsersInCall] = useState([]);
 
   const handleStart = (state) => setStart(state);

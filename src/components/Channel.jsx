@@ -80,6 +80,6 @@ const Channel = ({ user, userName }) => {
 export default Channel;
 
 Channel.propTypes = {
-  user: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired || PropTypes.bool.isRequired,
   userName: PropTypes.string.isRequired,
 };

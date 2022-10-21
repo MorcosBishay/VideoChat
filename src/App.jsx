@@ -1,11 +1,11 @@
 import React from "react";
-import VideoCallPage from "./pages/VideoCallPage";
+import VideoChat from "./pages/VideoChat";
 import "./App.css";
 
 function App() {
   return (
     <div className="App">
-      <VideoCallPage />
+      <VideoChat />
     </div>
   );
 }

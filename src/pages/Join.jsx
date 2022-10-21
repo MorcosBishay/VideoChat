@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Button, Grid, Paper, TextField, Typography } from "@mui/material";
 
-const JoinPage = ({
+const Join = ({
   usersNumber,
   handleInCall,
   setUserName,
@@ -93,9 +93,9 @@ const JoinPage = ({
   );
 };
 
-export default JoinPage;
+export default Join;
 
-JoinPage.propTypes = {
+Join.propTypes = {
   usersNumber: PropTypes.number.isRequired,
   handleInCall: PropTypes.func.isRequired,
   setUserName: PropTypes.func.isRequired,

@@ -2,14 +2,14 @@ import React, { useState, useEffect } from "react";
 import VideoCall from "../components/VideoCall";
 import { db } from "../config/Firebase";
 import { onValue, ref, set } from "firebase/database";
-import JoinPage from "./JoinPage";
+import Join from "./Join";
 
 // Chat Section
 import { getAuth, signInAnonymously, onAuthStateChanged } from "firebase/auth";
 import Channel from "../components/Channel";
 import { Grid } from "@mui/material";
 
-const VideoCallPage = () => {
+const VideoChat = () => {
   const fbQuery = ref(db, "usersCount");
 
   const [userName, setUserName] = useState("");
@@ -90,11 +90,11 @@ const VideoCallPage = () => {
         <Grid container>
           <Grid item xs={9}>
             <VideoCall
-              handleInCall={handleInCall}
               users={users}
-              handleUsers={handleUsers}
               userName={userName}
               usersNumber={usersNumber}
+              handleInCall={handleInCall}
+              handleUsers={handleUsers}
               handleSignOut={handleSignOut}
             />
           </Grid>
@@ -103,10 +103,10 @@ const VideoCallPage = () => {
           </Grid>
         </Grid>
       ) : (
-        <JoinPage
+        <Join
           usersNumber={usersNumber}
-          handleInCall={handleInCall}
           userName={userName}
+          handleInCall={handleInCall}
           setUserName={setUserName}
           handleSignIn={handleSignIn}
         />
@@ -115,4 +115,4 @@ const VideoCallPage = () => {
   );
 };
 
-export default VideoCallPage;
+export default VideoChat;

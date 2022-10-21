@@ -216,6 +216,6 @@ Videos.propTypes = {
   users: PropTypes.array.isRequired,
   tracks: PropTypes.array.isRequired,
   userName: PropTypes.string.isRequired,
-  usersInCall: PropTypes.func.isRequired,
-  myCamera: PropTypes.func.isRequired,
+  usersInCall: PropTypes.array.isRequired,
+  myCamera: PropTypes.bool.isRequired,
 };
