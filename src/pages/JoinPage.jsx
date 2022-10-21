@@ -2,7 +2,13 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Button, Grid, Paper, TextField, Typography } from "@mui/material";
 
-const JoinPage = ({ usersNumber, handleInCall, setUserName, userName }) => {
+const JoinPage = ({
+  usersNumber,
+  handleInCall,
+  setUserName,
+  userName,
+  handleSignIn,
+}) => {
   return (
     <Grid
       container
@@ -71,6 +77,7 @@ const JoinPage = ({ usersNumber, handleInCall, setUserName, userName }) => {
                 onClick={() => {
                   if (usersNumber < 3) {
                     handleInCall(true);
+                    handleSignIn();
                   } else {
                     alert("The maximum of 4 users has been reached");
                   }
@@ -93,4 +100,5 @@ JoinPage.propTypes = {
   handleInCall: PropTypes.func.isRequired,
   setUserName: PropTypes.func.isRequired,
   userName: PropTypes.string.isRequired,
+  handleSignIn: PropTypes.func.isRequired,
 };

@@ -14,6 +14,7 @@
     "@mui/icons-material": "^5.10.9",
     "@mui/material": "^5.10.9",
     "agora-rtc-react": "github:AgoraIO-Community/agora-rtc-react#v1.0.1",
+    "date-fns": "^2.29.3",
     "firebase": "^9.12.1",
     "prop-types": "^15.8.1",
     "react": "^17.0.2",

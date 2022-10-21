@@ -13,7 +13,13 @@ import { db } from "../config/Firebase";
 import { update, ref, set } from "firebase/database";
 import { Typography } from "@mui/material";
 
-const VideoCall = ({ handleInCall, users, handleUsers, userName }) => {
+const VideoCall = ({
+  handleInCall,
+  users,
+  handleUsers,
+  userName,
+  handleSignOut,
+}) => {
   const client = useClient();
   const { ready, tracks } = useMicrophoneAndCameraTracks();
   const [start, setStart] = useState(false);
@@ -124,6 +130,7 @@ const VideoCall = ({ handleInCall, users, handleUsers, userName }) => {
                 handleStart={handleStart}
                 handleInCall={handleInCall}
                 setMyCamera={setMyCamera}
+                handleSignOut={handleSignOut}
               />
             </Grid>
           </Grid>
@@ -151,4 +158,5 @@ VideoCall.propTypes = {
   users: PropTypes.array.isRequired,
   handleUsers: PropTypes.func.isRequired,
   userName: PropTypes.string.isRequired,
+  handleSignOut: PropTypes.func.isRequired,
 };

@@ -9,7 +9,13 @@ import VideocamIcon from "@mui/icons-material/Videocam";
 import VideocamOffIcon from "@mui/icons-material/VideocamOff";
 import CallEndIcon from "@mui/icons-material/CallEnd";
 
-const Controls = ({ tracks, handleStart, handleInCall, setMyCamera }) => {
+const Controls = ({
+  tracks,
+  handleStart,
+  handleInCall,
+  setMyCamera,
+  handleSignOut,
+}) => {
   const client = useClient();
   const [trackState, setTrackState] = useState({
     video: true,
@@ -23,6 +29,7 @@ const Controls = ({ tracks, handleStart, handleInCall, setMyCamera }) => {
     tracks[1].close();
     handleStart(false);
     handleInCall(false);
+    handleSignOut();
   };
 
   const toggleMute = async (type) => {
@@ -87,4 +94,5 @@ Controls.propTypes = {
   handleInCall: PropTypes.func.isRequired,
   handleStart: PropTypes.func.isRequired,
   setMyCamera: PropTypes.func.isRequired,
+  handleSignOut: PropTypes.func.isRequired,
 };

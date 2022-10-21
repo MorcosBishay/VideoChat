@@ -4,6 +4,11 @@ import { db } from "../config/Firebase";
 import { onValue, ref, set } from "firebase/database";
 import JoinPage from "./JoinPage";
 
+// Chat Section
+import { getAuth, signInAnonymously, onAuthStateChanged } from "firebase/auth";
+import Channel from "../components/Channel";
+import { Grid } from "@mui/material";
+
 const VideoCallPage = () => {
   const fbQuery = ref(db, "usersCount");
 
@@ -44,22 +49,66 @@ const VideoCallPage = () => {
   // Handle Users
   const handleUsers = (users) => setUsers(users);
 
+  // Chat Section
+  const auth = getAuth();
+  const [user, setUser] = useState(() => auth.currentUser);
+  const [initializing, setInitializing] = useState(true);
+
+  const handleSignIn = () => {
+    signInAnonymously(auth)
+      .then(() => {
+        auth.useDeviceLanguage();
+        setInitializing(false);
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
+
+  const handleSignOut = () => {
+    auth.signOut();
+  };
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUser({ ...user, displayName: userName });
+      } else {
+        setUser(false);
+      }
+      if (initializing) {
+        setInitializing(false);
+      }
+    });
+    // Cleanup subscription
+    return unsubscribe;
+  }, [initializing]);
+
   return (
     <>
       {inCall ? (
-        <VideoCall
-          handleInCall={handleInCall}
-          users={users}
-          handleUsers={handleUsers}
-          userName={userName}
-          usersNumber={usersNumber}
-        />
+        <Grid container>
+          <Grid item xs={9}>
+            <VideoCall
+              handleInCall={handleInCall}
+              users={users}
+              handleUsers={handleUsers}
+              userName={userName}
+              usersNumber={usersNumber}
+              handleSignOut={handleSignOut}
+            />
+          </Grid>
+          <Grid item xs={3}>
+            <Channel user={user} userName={userName} />
+          </Grid>
+        </Grid>
       ) : (
         <JoinPage
           usersNumber={usersNumber}
           handleInCall={handleInCall}
           userName={userName}
           setUserName={setUserName}
+          handleSignIn={handleSignIn}
         />
       )}
     </>
