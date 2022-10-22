@@ -1,7 +1,7 @@
 const styles = () => ({
   // Message Styles
   root: {
-    backgroundColor: '#add8e6',
+    backgroundColor: '#add8e6 !important',
     borderRadius: '10px',
     padding: 20,
   },
@@ -11,7 +11,7 @@ const styles = () => ({
 
   // Channel Styles
   channelContainer: {
-    backgroundColor: '#FBBF77',
+    backgroundColor: '#FBBF77 !important',
     borderRadius: '10px',
     height: '8%',
   },
@@ -33,29 +33,29 @@ const styles = () => ({
     '&::-webkit-scrollbar': {
       borderRadius: 10,
       width: 7,
-      backgroundColor: 'lightgrey',
+      backgroundColor: 'lightgrey !important',
       backgroundWidth: 2,
       scrollbarGutter: 'stable',
     },
     '&::-webkit-scrollbar-track': {
       borderRadius: 10,
-      backgroundColor: 'transparent',
+      backgroundColor: 'transparent !important',
     },
     '&::-webkit-scrollbar-thumb': {
       borderRadius: 10,
       scrollPaddingLeft: 50,
-      backgroundColor: '#add8e6',
+      backgroundColor: '#add8e6 !important',
       minHeight: 24,
       minWidth: 24,
     },
     '&::-webkit-scrollbar-thumb:focus': {
-      backgroundColor: '#add8e6',
+      backgroundColor: '#add8e6 !important',
     },
     '&::-webkit-scrollbar-thumb:active': {
-      backgroundColor: '#add8e6',
+      backgroundColor: '#add8e6 !important',
     },
     '&::-webkit-scrollbar-thumb:hover': {
-      backgroundColor: '#add8e6',
+      backgroundColor: '#add8e6 !important',
     },
     '&::-webkit-scrollbar-corner': {
       backgroundColor: 'transparent',
@@ -66,7 +66,7 @@ const styles = () => ({
   },
   formContainer: {
     padding: 20,
-    backgroundColor: '#FBBF77',
+    backgroundColor: '#FBBF77 !important  ',
     borderRadius: '10px',
   },
   textField: {

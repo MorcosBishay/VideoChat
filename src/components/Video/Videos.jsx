@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /* eslint-disable react/forbid-prop-types */
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
@@ -14,7 +15,7 @@ import Loading from '../Loading/Loading'
 import styles from './styles'
 import useClasses from '../../hooks/useClasses'
 
-function Videos({ users, tracks, userName, usersInCall, myCamera }) {
+function Videos({ tracks, userName, usersInCall, myCamera, myMicrophone }) {
   const classes = useClasses(styles)
 
   const [isLoading, setIsLoading] = useState(true)
@@ -41,7 +42,7 @@ function Videos({ users, tracks, userName, usersInCall, myCamera }) {
       alignItems="center"
       className={classes.rootVideos}
     >
-      <Grid
+      {/* <Grid
         item
         container
         xs={2}
@@ -89,13 +90,13 @@ function Videos({ users, tracks, userName, usersInCall, myCamera }) {
             </Grid>
           </Grid>
         ))}
-      </Grid>
+      </Grid> */}
 
       {/* Video Wrapper for Current User */}
       <Grid
         container
         item
-        xs={10}
+        xs={11}
         gap={2}
         direction="column"
         justifyContent="center"
@@ -111,9 +112,35 @@ function Videos({ users, tracks, userName, usersInCall, myCamera }) {
           gap={2}
         >
           <Grid item xs={4} className={classes.videoWrapper}>
-            <Typography variant="h6" align="center">
-              {userName}
-            </Typography>
+            <Grid
+              item
+              className={classes.userNameGrid}
+              container
+              justifyContent="center"
+            >
+              <Grid item mr={2}>
+                <Typography
+                  fontWeight="bold"
+                  className={classes.userNameTypography}
+                >
+                  {userName}
+                </Typography>
+              </Grid>
+              <Grid item>
+                {myCamera ? (
+                  <VideocamIcon color="primary" />
+                ) : (
+                  <VideocamOffIcon color="secondary" />
+                )}
+              </Grid>
+              <Grid item>
+                {myMicrophone ? (
+                  <MicIcon color="primary" />
+                ) : (
+                  <MicOffIcon color="secondary" />
+                )}
+              </Grid>
+            </Grid>
             {myCamera ? (
               <AgoraVideoPlayer videoTrack={tracks[1]} />
             ) : (
@@ -124,22 +151,60 @@ function Videos({ users, tracks, userName, usersInCall, myCamera }) {
                 gap={2}
               >
                 <Grid item>
-                  <Typography variant="h6" align="center">
+                  <Typography variant="h6" align="center" color="secondary">
                     Camera Off
                   </Typography>
-                </Grid>
-                <Grid item>
-                  <VideocamOffIcon color="secondary" />
                 </Grid>
               </Grid>
             )}
           </Grid>
-          {users.length > 0 && (
+          {usersInCall.length > 0 && (
             <Grid item xs={4} className={classes.videoWrapper}>
-              <Typography variant="h6" align="center">
-                {userNames[users[0].uid]}
-              </Typography>
-              <AgoraVideoPlayer videoTrack={users[0].videoTrack} />
+              <Grid
+                item
+                className={classes.userNameGrid}
+                container
+                justifyContent="center"
+              >
+                <Grid item mr={2}>
+                  <Typography
+                    fontWeight="bold"
+                    className={classes.userNameTypography}
+                  >
+                    {userNames[usersInCall[0].uid]}
+                  </Typography>
+                </Grid>
+                <Grid item>
+                  {usersInCall[0].videoTrack ? (
+                    <VideocamIcon color="primary" />
+                  ) : (
+                    <VideocamOffIcon color="secondary" />
+                  )}
+                </Grid>
+                <Grid item>
+                  {!usersInCall[0]._audio_muted_ ? (
+                    <MicIcon color="primary" />
+                  ) : (
+                    <MicOffIcon color="secondary" />
+                  )}
+                </Grid>
+              </Grid>
+              {usersInCall[0].videoTrack !== undefined ? (
+                <AgoraVideoPlayer videoTrack={usersInCall[0].videoTrack} />
+              ) : (
+                <Grid
+                  container
+                  justifyContent="center"
+                  alignItems="center"
+                  gap={2}
+                >
+                  <Grid item>
+                    <Typography variant="h6" align="center" color="secondary">
+                      Camera Off
+                    </Typography>
+                  </Grid>
+                </Grid>
+              )}
             </Grid>
           )}
         </Grid>
@@ -152,20 +217,102 @@ function Videos({ users, tracks, userName, usersInCall, myCamera }) {
           direction="row"
           gap={2}
         >
-          {users.length > 1 && (
+          {usersInCall.length > 1 && (
             <Grid item xs={4} className={classes.videoWrapper}>
-              <Typography variant="h6" align="center">
-                {userNames[users[1].uid]}
-              </Typography>
-              <AgoraVideoPlayer videoTrack={users[1].videoTrack} />
+              <Grid
+                item
+                className={classes.userNameGrid}
+                container
+                justifyContent="center"
+              >
+                <Grid item mr={2}>
+                  <Typography
+                    fontWeight="bold"
+                    className={classes.userNameTypography}
+                  >
+                    {userNames[usersInCall[1].uid]}
+                  </Typography>
+                </Grid>
+                <Grid item>
+                  {usersInCall[1].videoTrack ? (
+                    <VideocamIcon color="primary" />
+                  ) : (
+                    <VideocamOffIcon color="secondary" />
+                  )}
+                </Grid>
+                <Grid item>
+                  {!usersInCall[1]._audio_muted_ ? (
+                    <MicIcon color="primary" />
+                  ) : (
+                    <MicOffIcon color="secondary" />
+                  )}
+                </Grid>
+              </Grid>
+              {usersInCall[1].videoTrack !== undefined ? (
+                <AgoraVideoPlayer videoTrack={usersInCall[1].videoTrack} />
+              ) : (
+                <Grid
+                  container
+                  justifyContent="center"
+                  alignItems="center"
+                  gap={2}
+                >
+                  <Grid item>
+                    <Typography variant="h6" align="center" color="secondary">
+                      Camera Off
+                    </Typography>
+                  </Grid>
+                </Grid>
+              )}
             </Grid>
           )}
-          {users.length > 2 && (
+          {usersInCall.length > 2 && (
             <Grid item xs={4} className={classes.videoWrapper}>
-              <Typography variant="h6" align="center">
-                {userNames[users[2].uid]}
-              </Typography>
-              <AgoraVideoPlayer videoTrack={users[2].videoTrack} />
+              <Grid
+                item
+                className={classes.userNameGrid}
+                container
+                justifyContent="center"
+              >
+                <Grid item mr={2}>
+                  <Typography
+                    fontWeight="bold"
+                    className={classes.userNameTypography}
+                  >
+                    {userNames[usersInCall[2].uid]}
+                  </Typography>
+                </Grid>
+                <Grid item>
+                  {usersInCall[2].videoTrack ? (
+                    <VideocamIcon color="primary" />
+                  ) : (
+                    <VideocamOffIcon color="secondary" />
+                  )}
+                </Grid>
+                <Grid item>
+                  {!usersInCall[2]._audio_muted_ ? (
+                    <MicIcon color="primary" />
+                  ) : (
+                    <MicOffIcon color="secondary" />
+                  )}
+                </Grid>
+              </Grid>
+              {usersInCall[2].videoTrack !== undefined ? (
+                <AgoraVideoPlayer videoTrack={usersInCall[2].videoTrack} />
+              ) : (
+                <Grid
+                  container
+                  justifyContent="center"
+                  alignItems="center"
+                  gap={2}
+                >
+                  <Grid item>
+                    <Typography variant="h6" align="center" color="secondary">
+                      Camera Off
+                    </Typography>
+                  </Grid>
+                </Grid>
+              )}
             </Grid>
           )}
         </Grid>
@@ -177,9 +324,9 @@ function Videos({ users, tracks, userName, usersInCall, myCamera }) {
 export default Videos
 
 Videos.propTypes = {
-  users: PropTypes.array.isRequired,
   tracks: PropTypes.array.isRequired,
   userName: PropTypes.string.isRequired,
   usersInCall: PropTypes.array.isRequired,
   myCamera: PropTypes.bool.isRequired,
+  myMicrophone: PropTypes.bool.isRequired,
 }

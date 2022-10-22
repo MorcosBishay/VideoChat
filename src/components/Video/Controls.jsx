@@ -9,18 +9,15 @@ import VideocamIcon from '@mui/icons-material/Videocam'
 import VideocamOffIcon from '@mui/icons-material/VideocamOff'
 import CallEndIcon from '@mui/icons-material/CallEnd'
 import { useClient } from '../../config/settings'
-import styles from './styles'
-import useClasses from '../../hooks/useClasses'
 
 function Controls({
   tracks,
   handleStart,
   handleInCall,
   setMyCamera,
+  setMyMicrophone,
   handleSignOut,
 }) {
-  const classes = useClasses(styles)
-
   const client = useClient()
   const [trackState, setTrackState] = useState({
     video: true,
@@ -40,6 +37,7 @@ function Controls({
   const toggleMute = async (type) => {
     if (type === 'audio') {
       await tracks[0].setEnabled(!trackState.audio)
+      setMyMicrophone((ps) => !ps)
       setTrackState((ps) => ({
         ...ps,
         audio: !ps.audio,
@@ -79,10 +77,7 @@ function Controls({
         </IconButton>
       </Grid>
       <Grid item>
-        <IconButton
-          className={classes.leaveButton}
-          onClick={() => leaveChannel()}
-        >
+        <IconButton color="secondary" onClick={() => leaveChannel()}>
           <CallEndIcon />
         </IconButton>
       </Grid>
@@ -98,4 +93,5 @@ Controls.propTypes = {
   handleStart: PropTypes.func.isRequired,
   setMyCamera: PropTypes.func.isRequired,
   handleSignOut: PropTypes.func.isRequired,
+  setMyMicrophone: PropTypes.func.isRequired,
 }

@@ -6,7 +6,7 @@ import {
 let token = null
 
 await fetch(
-  'https://video-chat-nodogoro.herokuapp.com/rtc/Nodogoro/1/uid/0/?expiry=300',
+  'https://video-chat-nodogoro.herokuapp.com/rtc/Nodogoro/1/uid/0/?expiry=1000000000',
 )
   .then((response) => response.json())
   .then((data) => {

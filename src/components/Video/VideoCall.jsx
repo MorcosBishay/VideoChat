@@ -33,6 +33,7 @@ function VideoCall({
   const [start, setStart] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
   const [myCamera, setMyCamera] = useState(true)
+  const [myMicrophone, setMyMicrophone] = useState(true)
   const [usersInCall, setUsersInCall] = useState([])
 
   const handleStart = (state) => setStart(state)
@@ -43,7 +44,7 @@ function VideoCall({
         await update(ref(db, 'users'), {
           [client._uid]: userName,
         })
-        await set(ref(db, 'usersCount'), users.length)
+        await set(ref(db, 'usersCount'), usersInCall.length)
       }
     }
     updateFirebase()
@@ -60,6 +61,9 @@ function VideoCall({
         await client.subscribe(user, mediaType)
         if (mediaType === 'video') {
           await handleUsers((pervUsers) => [...pervUsers, user])
+          await handleUsers((prev) =>
+            prev.map((ussr) => (ussr.uid === user.uid ? user : ussr)),
+          )
         }
         if (mediaType === 'audio') {
           user.audioTrack.play()
@@ -119,7 +123,7 @@ function VideoCall({
   if (isLoading) return <Loading />
 
   return (
-    <Grid container direction="row" className={classes.root} gap={2}>
+    <Grid container direction="row" className={classes.root} gap={1}>
       <Grid item className={classes.controlsRoot} xs={12}>
         {ready && tracks && (
           <Grid
@@ -140,6 +144,7 @@ function VideoCall({
                 handleStart={handleStart}
                 handleInCall={handleInCall}
                 setMyCamera={setMyCamera}
+                setMyMicrophone={setMyMicrophone}
                 handleSignOut={handleSignOut}
               />
             </Grid>
@@ -154,6 +159,7 @@ function VideoCall({
             userName={userName}
             usersInCall={usersInCall}
             myCamera={myCamera}
+            myMicrophone={myMicrophone}
           />
         )}
       </Grid>

@@ -4,4 +4,9 @@
 
 .agora_video_player {
   position: inherit !important;
+  border-radius: 10px !important;
+}
+
+* {
+  background-color: transparent !important;
 }

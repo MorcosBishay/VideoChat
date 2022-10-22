@@ -1,18 +1,14 @@
 const styles = () => ({
-  // Controls Styles
-  leaveButton: {
-    color: 'red !important',
-  },
-
   // VideoCall Styles
   root: {
     height: '100%',
+    overflow: 'hidden',
   },
   controlsRoot: {
     height: '5%',
   },
   controlsSubRoot: {
-    backgroundColor: '#FBBF77',
+    backgroundColor: '#FBBF77 !important',
     borderRadius: '10px',
   },
   videoGrid: {
@@ -26,7 +22,7 @@ const styles = () => ({
 
   // User Names Styles
   userNamesGrid: {
-    backgroundColor: '#FBBF77',
+    backgroundColor: '#FBBF77 !important',
     padding: '0.5rem',
     borderRadius: '0.25rem',
     height: '30%',
@@ -43,11 +39,11 @@ const styles = () => ({
 
   // User Video Style
   userVideoGrid: {
-    paddingTop: '6%',
+    paddingTop: '4%',
   },
   videoWrapper: {
     borderRadius: '1rem',
-    backgroundColor: '#add8e6',
+    backgroundColor: '#D3D3D3 !important',
     padding: '1rem',
   },
 })

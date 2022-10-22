@@ -80,18 +80,33 @@ function Channel({ user, userName }) {
         </Grid>
       </Grid>
       <div className={classes.div}>
-        <ul className={classes.ul}>
-          {messages.map((message) => (
-            <div key={message.id} className={classes.messageContainer}>
-              <Message
-                createdAt={message.createdAt}
-                text={message.text}
-                displayName={message.displayName}
-                userId={message.id}
-              />
-            </div>
-          ))}
-        </ul>
+        {messages.length < 1 ? (
+          <Grid
+            container
+            justifyContent="center"
+            alignItems="center"
+            className={classes.ul}
+          >
+            <Grid item>
+              <Typography variant="h6" align="center">
+                No messages yet
+              </Typography>
+            </Grid>
+          </Grid>
+        ) : (
+          <ul className={classes.ul}>
+            {messages.map((message) => (
+              <div key={message.id} className={classes.messageContainer}>
+                <Message
+                  createdAt={message.createdAt}
+                  text={message.text}
+                  displayName={message.displayName}
+                  userId={message.id}
+                />
+              </div>
+            ))}
+          </ul>
+        )}
         <form onSubmit={handleOnSubmit}>
           <Grid
             container
