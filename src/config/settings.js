@@ -1,4 +1,7 @@
-import { createClient, createMicrophoneAndCameraTracks } from "agora-rtc-react";
+import {
+  createClient,
+  createMicrophoneAndCameraTracks,
+} from "custom-agora-rtc-react";
 
 let token = null;
 await fetch(

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { AgoraVideoPlayer } from "agora-rtc-react";
+import { AgoraVideoPlayer } from "custom-agora-rtc-react";
 import Grid from "@mui/material/Grid";
 import { Typography } from "@mui/material";
 import { db } from "../config/Firebase";

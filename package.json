@@ -13,7 +13,7 @@
     "@emotion/styled": "^11.10.4",
     "@mui/icons-material": "^5.10.9",
     "@mui/material": "^5.10.9",
-    "agora-rtc-react": "github:AgoraIO-Community/agora-rtc-react#v1.0.1",
+    "custom-agora-rtc-react": "^1.0.0",
     "date-fns": "^2.29.3",
     "firebase": "^9.12.1",
     "prop-types": "^15.8.1",
