@@ -1,19 +1,18 @@
 import React, { useState, useEffect } from "react";
-import VideoCall from "../components/VideoCall";
+import VideoCall from "../components/Video/VideoCall";
 import { db } from "../config/Firebase";
 import { onValue, ref, set } from "firebase/database";
-import Join from "./Join";
+import Join from "./Join/Join";
 
 // Chat Section
 import { getAuth, signInAnonymously, onAuthStateChanged } from "firebase/auth";
-import Channel from "../components/Channel";
+import Channel from "../components/Chat/Channel";
 import { Grid } from "@mui/material";
 
 const VideoChat = () => {
   const fbQuery = ref(db, "usersCount");
 
   const [userName, setUserName] = useState("");
-
   const [users, setUsers] = useState([]);
   const [usersNumber, setUsersNumber] = useState(0);
   const [inCall, setInCall] = useState(false);
@@ -54,6 +53,7 @@ const VideoChat = () => {
   const [user, setUser] = useState(() => auth.currentUser);
   const [initializing, setInitializing] = useState(true);
 
+  // Handle Sign In
   const handleSignIn = () => {
     signInAnonymously(auth)
       .then(() => {
@@ -65,6 +65,7 @@ const VideoChat = () => {
       });
   };
 
+  // Handle Sign Out
   const handleSignOut = () => {
     auth.signOut();
   };

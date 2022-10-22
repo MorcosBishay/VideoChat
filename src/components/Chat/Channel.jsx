@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { firestore } from "../config/Firebase";
+import { firestore } from "../../config/firebase";
 import {
   collection,
   addDoc,
@@ -12,13 +12,19 @@ import {
 } from "firebase/firestore";
 import Message from "./Message";
 import { Button, Grid, TextField, Typography } from "@mui/material";
+import styles from "./styles";
+import useClasses from "../../hooks/useClasses";
+import Loading from "../Loading/Loading";
 
 const Channel = ({ user, userName }) => {
+  const classes = useClasses(styles);
+
   const messageRef = collection(firestore, "messages");
   const q = query(messageRef, orderBy("createdAt"), limit(100));
 
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
 
   const handleOnChange = (e) => {
     setNewMessage(e.target.value);
@@ -27,6 +33,8 @@ const Channel = ({ user, userName }) => {
   const handleOnSubmit = async (e) => {
     e.preventDefault();
     const trimmedMessage = newMessage.trim();
+    // Clear input field
+    setNewMessage("");
     if (trimmedMessage) {
       // Add new message in Firestore
       await addDoc(messageRef, {
@@ -35,8 +43,6 @@ const Channel = ({ user, userName }) => {
         uid: user.uid,
         displayName: userName,
       });
-      // Clear input field
-      setNewMessage("");
     }
   };
 
@@ -48,7 +54,10 @@ const Channel = ({ user, userName }) => {
         id: doc.id,
       }))
     );
+    setIsLoading(false);
   }, [handleOnSubmit]);
+
+  if (isLoading) return <Loading />;
 
   return (
     <>
@@ -57,11 +66,7 @@ const Channel = ({ user, userName }) => {
         justifyContent="center"
         alignItems="center"
         direction="column"
-        sx={{
-          backgroundColor: "#FBBF77",
-          borderRadius: "10px",
-          height: "8%",
-        }}
+        className={classes.channelContainer}
       >
         <Grid item>
           <Typography variant="h6" align="center">
@@ -69,63 +74,10 @@ const Channel = ({ user, userName }) => {
           </Typography>
         </Grid>
       </Grid>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          height: "90vh",
-        }}
-      >
-        <ul
-          style={{
-            padding: 5,
-            height: "100vh",
-            overflowY: "scroll",
-            listStyle: "none",
-            borderRadius: "10px",
-            scrollbarWidth: "thin",
-            scrollbarColor: "#add8e6 transparent",
-            margin: "0",
-            marginBottom: "10px",
-            "&::-webkit-scrollbar": {
-              borderRadius: 10,
-              width: 7,
-              backgroundColor: "lightgrey",
-              backgroundWidth: 2,
-              scrollbarGutter: "stable",
-            },
-            "&::-webkit-scrollbar-track": {
-              borderRadius: 10,
-              backgroundColor: "transparent",
-            },
-            "&::-webkit-scrollbar-thumb": {
-              borderRadius: 10,
-              scrollPaddingLeft: 50,
-              backgroundColor: "#add8e6",
-              minHeight: 24,
-              minWidth: 24,
-            },
-            "&::-webkit-scrollbar-thumb:focus": {
-              backgroundColor: "#add8e6",
-            },
-            "&::-webkit-scrollbar-thumb:active": {
-              backgroundColor: "#add8e6",
-            },
-            "&::-webkit-scrollbar-thumb:hover": {
-              backgroundColor: "#add8e6",
-            },
-            "&::-webkit-scrollbar-corner": {
-              backgroundColor: "transparent",
-            },
-          }}
-        >
+      <div className={classes.div}>
+        <ul className={classes.ul}>
           {messages.map((message) => (
-            <div
-              key={message.id}
-              style={{
-                marginBottom: "10px",
-              }}
-            >
+            <div key={message.id} className={classes.messageContainer}>
               <Message
                 createdAt={message.createdAt}
                 text={message.text}
@@ -139,18 +91,12 @@ const Channel = ({ user, userName }) => {
           <Grid
             container
             justifyContent="space-between"
-            sx={{
-              padding: 2,
-              backgroundColor: "#FBBF77",
-              borderRadius: "10px",
-            }}
+            className={classes.formContainer}
             gap={1}
           >
             <Grid item xs={9}>
               <TextField
-                sx={{
-                  width: "100%",
-                }}
+                className={classes.textField}
                 value={newMessage}
                 onChange={handleOnChange}
                 placeholder="Type your message here..."

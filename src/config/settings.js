@@ -13,7 +13,6 @@ await fetch(
   });
 
 const appId = process.env.REACT_APP_AGORA_APP_ID;
-// const token = process.env.REACT_APP_AGORA_TOKEN;
 
 export const config = await {
   mode: "rtc",

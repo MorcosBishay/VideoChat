@@ -6,12 +6,15 @@ import {
   useClient,
   useMicrophoneAndCameraTracks,
   channelName,
-} from "../config/settings";
+} from "../../config/settings";
 import Controls from "./Controls";
 import Videos from "./Videos";
-import { db } from "../config/Firebase";
+import { db } from "../../config/Firebase";
 import { update, ref, set } from "firebase/database";
 import { Typography } from "@mui/material";
+import Loading from "../Loading/Loading";
+import styles from "./styles";
+import useClasses from "../../hooks/useClasses";
 
 const VideoCall = ({
   handleInCall,
@@ -20,6 +23,7 @@ const VideoCall = ({
   userName,
   handleSignOut,
 }) => {
+  const classes = useClasses(styles);
   const client = useClient();
 
   const { ready, tracks } = useMicrophoneAndCameraTracks();
@@ -91,34 +95,31 @@ const VideoCall = ({
 
       // Set Start
       setStart(true);
-      setIsLoading(false);
     };
 
     // Initialize
     if (ready && tracks) {
       try {
-        init(channelName);
+        await init(channelName);
+        setIsLoading(false);
       } catch (err) {
         console.log(err);
       }
     }
   }, [channelName, client, ready, tracks]);
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <Loading />;
 
   return (
-    <Grid container direction="row" sx={{ height: "100%" }} gap={2}>
-      <Grid item sx={{ height: "5%" }} xs={12}>
+    <Grid container direction="row" className={classes.root} gap={2}>
+      <Grid item className={classes.controlsRoot} xs={12}>
         {ready && tracks && (
           <Grid
             container
             justifyContent="center"
             alignItems="center"
             direction="column"
-            sx={{
-              backgroundColor: "#FBBF77",
-              borderRadius: "10px",
-            }}
+            className={classes.controlsSubRoot}
           >
             <Grid item>
               <Typography variant="h6" align="center">
@@ -137,7 +138,7 @@ const VideoCall = ({
           </Grid>
         )}
       </Grid>
-      <Grid item sx={{ height: "95%" }} xs={12}>
+      <Grid item className={classes.videoGrid} xs={12}>
         {start && tracks && (
           <Videos
             tracks={tracks}

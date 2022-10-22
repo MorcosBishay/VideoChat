@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { useClient } from "../config/settings";
+import { useClient } from "../../config/settings";
 import Grid from "@mui/material/Grid";
 import IconButton from "@mui/material/IconButton ";
 import MicIcon from "@mui/icons-material/Mic";
@@ -8,6 +8,8 @@ import MicOffIcon from "@mui/icons-material/MicOff";
 import VideocamIcon from "@mui/icons-material/Videocam";
 import VideocamOffIcon from "@mui/icons-material/VideocamOff";
 import CallEndIcon from "@mui/icons-material/CallEnd";
+import styles from "./styles";
+import useClasses from "../../hooks/useClasses";
 
 const Controls = ({
   tracks,
@@ -16,6 +18,8 @@ const Controls = ({
   setMyCamera,
   handleSignOut,
 }) => {
+  const classes = useClasses(styles);
+
   const client = useClient();
   const [trackState, setTrackState] = useState({
     video: true,
@@ -75,9 +79,7 @@ const Controls = ({
       </Grid>
       <Grid item>
         <IconButton
-          sx={{
-            color: "red",
-          }}
+          className={classes.leaveButton}
           onClick={() => leaveChannel()}
         >
           <CallEndIcon />

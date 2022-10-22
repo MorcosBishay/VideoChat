@@ -1,37 +1,23 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { formatDate } from "../utils/helpers";
+import { formatDate } from "../../utils/helpers";
 import { Grid, Typography } from "@mui/material";
+import styles from "./styles";
+import useClasses from "../../hooks/useClasses";
 
-const Message = ({ createdAt, text, displayName, userId }) => {
+const Message = ({ createdAt, text, displayName }) => {
+  const classes = useClasses(styles);
+
   return (
-    <Grid
-      container
-      direction="column"
-      padding={2}
-      sx={{
-        backgroundColor: "#add8e6",
-        borderRadius: "10px",
-      }}
-    >
+    <Grid container direction="column" className={classes.root}>
       <Grid item container gap={2}>
         <Grid item>
           {displayName ? (
-            <Typography
-              sx={{
-                fontWeight: "bold",
-              }}
-            >
+            <Typography className={classes.nameTypography}>
               {displayName}
             </Typography>
           ) : (
-            <Typography
-              sx={{
-                fontWeight: "bold",
-              }}
-            >
-              No Name
-            </Typography>
+            <Typography className={classes.nameTypography}>No Name</Typography>
           )}
         </Grid>
         <Grid item>
@@ -55,5 +41,4 @@ Message.propTypes = {
   createdAt: PropTypes.any.isRequired,
   text: PropTypes.string.isRequired,
   displayName: PropTypes.string.isRequired,
-  userId: PropTypes.string.isRequired,
 };
