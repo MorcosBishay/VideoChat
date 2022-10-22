@@ -29,7 +29,9 @@ Use any of the 2 network links to use the app from any device which shares the s
 ***Open a new terminal while the previous one is still running and run the following commands***
 
 ```
-./ngrok http 5173
+1- ./ngrok config add-authtoken 2GUR1d4sgIC2sZN6NCyVxzntb7R_5id7Gwd8mMuDy8mVfAKf8
+
+2- ./ngrok http 5173
 ```
 
 **Output from this command**
