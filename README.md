@@ -4,6 +4,8 @@ This is a video conference react app that allows up to 4 users to join the call 
 
 ## Usage
 
+***Create .env file in the project root directory, copy the .env.example content in the .env file & add your keys*** 
+
 ***Go to the root directory of the project, open your terminal & run the following commands in oreder**
 ```
 1- npm install
@@ -29,7 +31,7 @@ Use any of the 2 network links to use the app from any device which shares the s
 ***Open a new terminal while the previous one is still running and run the following commands***
 
 ```
-1- ./ngrok config add-authtoken 2GUR1d4sgIC2sZN6NCyVxzntb7R_5id7Gwd8mMuDy8mVfAKf8
+1- ./ngrok config add-authtoken <YOUR-NGROK-TOKEN>
 
 2- ./ngrok http 5173
 ```
