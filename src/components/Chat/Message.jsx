@@ -1,12 +1,13 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { formatDate } from "../../utils/helpers";
-import { Grid, Typography } from "@mui/material";
-import styles from "./styles";
-import useClasses from "../../hooks/useClasses";
+/* eslint-disable react/forbid-prop-types */
+import React from 'react'
+import PropTypes from 'prop-types'
+import { Grid, Typography } from '@mui/material'
+import formatDate from '../../utils/helpers'
+import styles from './styles'
+import useClasses from '../../hooks/useClasses'
 
-const Message = ({ createdAt, text, displayName }) => {
-  const classes = useClasses(styles);
+function Message({ createdAt, text, displayName }) {
+  const classes = useClasses(styles)
 
   return (
     <Grid container direction="column" className={classes.root}>
@@ -21,7 +22,7 @@ const Message = ({ createdAt, text, displayName }) => {
           )}
         </Grid>
         <Grid item>
-          {createdAt?.seconds ? (
+          {createdAt.seconds ? (
             <Typography>
               {formatDate(new Date(createdAt.seconds * 1000))}
             </Typography>
@@ -32,13 +33,13 @@ const Message = ({ createdAt, text, displayName }) => {
         <Typography>Message ➡ {text}</Typography>
       </Grid>
     </Grid>
-  );
-};
+  )
+}
 
-export default Message;
+export default Message
 
 Message.propTypes = {
   createdAt: PropTypes.any.isRequired,
   text: PropTypes.string.isRequired,
   displayName: PropTypes.string.isRequired,
-};
+}

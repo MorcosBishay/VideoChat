@@ -1,28 +1,28 @@
-const styles = (theme) => ({
+const styles = () => ({
   root: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   progress: {
-    position: "relative",
-    marginTop: "150px",
+    position: 'relative',
+    marginTop: '150px',
   },
   top: {
-    color: "#0445EE",
-    animationDuration: "2000ms",
-    position: "absolute",
+    color: '#0445EE',
+    animationDuration: '2000ms',
+    position: 'absolute',
     left: 0,
   },
   circle: {
-    strokeLinecap: "round",
-    color: "primary",
+    strokeLinecap: 'round',
+    color: 'primary',
   },
   logo: {
-    position: "absolute",
+    position: 'absolute',
     left: 80,
     top: 90,
   },
-});
+})
 
-export default styles;
+export default styles

@@ -1,36 +1,37 @@
-import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
-import { AgoraVideoPlayer } from "custom-agora-rtc-react";
-import Grid from "@mui/material/Grid";
-import { Typography } from "@mui/material";
-import { db } from "../../config/Firebase";
-import { onValue, ref } from "firebase/database";
-import MicIcon from "@mui/icons-material/Mic";
-import MicOffIcon from "@mui/icons-material/MicOff";
-import VideocamIcon from "@mui/icons-material/Videocam";
-import VideocamOffIcon from "@mui/icons-material/VideocamOff";
-import Loading from "../Loading/Loading";
-import styles from "./styles";
-import useClasses from "../../hooks/useClasses";
+/* eslint-disable react/forbid-prop-types */
+import React, { useState, useEffect } from 'react'
+import PropTypes from 'prop-types'
+import { AgoraVideoPlayer } from 'custom-agora-rtc-react'
+import Grid from '@mui/material/Grid'
+import { Typography } from '@mui/material'
+import { onValue, ref } from 'firebase/database'
+import MicIcon from '@mui/icons-material/Mic'
+import MicOffIcon from '@mui/icons-material/MicOff'
+import VideocamIcon from '@mui/icons-material/Videocam'
+import VideocamOffIcon from '@mui/icons-material/VideocamOff'
+import { db } from '../../config/Firebase'
+import Loading from '../Loading/Loading'
+import styles from './styles'
+import useClasses from '../../hooks/useClasses'
 
-const Videos = ({ users, tracks, userName, usersInCall, myCamera }) => {
-  const classes = useClasses(styles);
+function Videos({ users, tracks, userName, usersInCall, myCamera }) {
+  const classes = useClasses(styles)
 
-  const [isLoading, setIsLoading] = useState(true);
-  const [userNames, setUserNames] = useState([]);
+  const [isLoading, setIsLoading] = useState(true)
+  const [userNames, setUserNames] = useState([])
 
   useEffect(() => {
-    const fbQuery = ref(db, "users");
+    const fbQuery = ref(db, 'users')
     return onValue(fbQuery, (snapshot) => {
-      const data = snapshot.val();
+      const data = snapshot.val()
       if (snapshot.exists()) {
-        setUserNames(data);
+        setUserNames(data)
       }
-      setIsLoading(false);
-    });
-  }, []);
+      setIsLoading(false)
+    })
+  }, [])
 
-  if (isLoading) return <Loading />;
+  if (isLoading) return <Loading />
 
   return (
     <Grid
@@ -56,7 +57,7 @@ const Videos = ({ users, tracks, userName, usersInCall, myCamera }) => {
             {userName} (You)
           </Typography>
         </Grid>
-        {usersInCall?.map((user) => (
+        {usersInCall.map((user) => (
           <Grid
             item
             key={user.uid}
@@ -64,7 +65,7 @@ const Videos = ({ users, tracks, userName, usersInCall, myCamera }) => {
             container
             justifyContent="space-between"
           >
-            <Grid item>
+            <Grid item xs={8}>
               <Typography
                 fontWeight="bold"
                 className={classes.userNameTypography}
@@ -72,14 +73,14 @@ const Videos = ({ users, tracks, userName, usersInCall, myCamera }) => {
                 {userNames[user.uid]}
               </Typography>
             </Grid>
-            <Grid item>
+            <Grid item xs={2}>
               {user.videoTrack !== undefined ? (
                 <VideocamIcon color="primary" />
               ) : (
                 <VideocamOffIcon color="secondary" />
               )}
             </Grid>
-            <Grid item>
+            <Grid item xs={2}>
               {user._audio_muted_ ? (
                 <MicOffIcon color="secondary" />
               ) : (
@@ -170,10 +171,10 @@ const Videos = ({ users, tracks, userName, usersInCall, myCamera }) => {
         </Grid>
       </Grid>
     </Grid>
-  );
-};
+  )
+}
 
-export default Videos;
+export default Videos
 
 Videos.propTypes = {
   users: PropTypes.array.isRequired,
@@ -181,4 +182,4 @@ Videos.propTypes = {
   userName: PropTypes.string.isRequired,
   usersInCall: PropTypes.array.isRequired,
   myCamera: PropTypes.bool.isRequired,
-};
+}

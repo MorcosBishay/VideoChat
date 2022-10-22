@@ -1,114 +1,122 @@
-import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
-import Grid from "@mui/material/Grid";
+/* eslint-disable no-console */
+/* eslint-disable react/forbid-prop-types */
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useState, useEffect } from 'react'
+import PropTypes from 'prop-types'
+import Grid from '@mui/material/Grid'
+import { update, ref, set } from 'firebase/database'
+import { Typography } from '@mui/material'
 import {
   config,
   useClient,
   useMicrophoneAndCameraTracks,
   channelName,
-} from "../../config/settings";
-import Controls from "./Controls";
-import Videos from "./Videos";
-import { db } from "../../config/Firebase";
-import { update, ref, set } from "firebase/database";
-import { Typography } from "@mui/material";
-import Loading from "../Loading/Loading";
-import styles from "./styles";
-import useClasses from "../../hooks/useClasses";
+} from '../../config/settings'
+import Controls from './Controls'
+import Videos from './Videos'
+import { db } from '../../config/Firebase'
+import Loading from '../Loading/Loading'
+import styles from './styles'
+import useClasses from '../../hooks/useClasses'
 
-const VideoCall = ({
+function VideoCall({
   handleInCall,
   users,
   handleUsers,
   userName,
   handleSignOut,
-}) => {
-  const classes = useClasses(styles);
-  const client = useClient();
+}) {
+  const classes = useClasses(styles)
+  const client = useClient()
 
-  const { ready, tracks } = useMicrophoneAndCameraTracks();
-  const [start, setStart] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const [myCamera, setMyCamera] = useState(true);
-  const [usersInCall, setUsersInCall] = useState([]);
+  const { ready, tracks } = useMicrophoneAndCameraTracks()
+  const [start, setStart] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
+  const [myCamera, setMyCamera] = useState(true)
+  const [usersInCall, setUsersInCall] = useState([])
 
-  const handleStart = (state) => setStart(state);
+  const handleStart = (state) => setStart(state)
 
-  useEffect(async () => {
-    if (client._uid != undefined) {
-      await update(ref(db, "users"), {
-        [client._uid]: userName,
-      });
-      await set(ref(db, "usersCount"), users.length);
+  useEffect(() => {
+    async function updateFirebase() {
+      if (client._uid !== undefined) {
+        await update(ref(db, 'users'), {
+          [client._uid]: userName,
+        })
+        await set(ref(db, 'usersCount'), users.length)
+      }
     }
-  }, [client, users]);
+    updateFirebase()
+  }, [client, users])
 
   useEffect(async () => {
-    let init = async (name) => {
-      client.on("user-joined", (user) => {
-        setUsersInCall((arr) => [...arr, user]);
-      });
+    const init = async (name) => {
+      client.on('user-joined', (user) => {
+        setUsersInCall((arr) => [...arr, user])
+      })
 
       // User Publishes
-      client.on("user-published", async (user, mediaType) => {
-        await client.subscribe(user, mediaType);
-        if (mediaType === "video") {
-          await handleUsers((users) => [...users, user]);
+      client.on('user-published', async (user, mediaType) => {
+        await client.subscribe(user, mediaType)
+        if (mediaType === 'video') {
+          await handleUsers((pervUsers) => [...pervUsers, user])
         }
-        if (mediaType === "audio") {
-          user.audioTrack.play();
-          await handleUsers((prev) => {
-            return prev.map((ussr) => (ussr.uid === user.uid ? user : ussr));
-          });
+        if (mediaType === 'audio') {
+          user.audioTrack.play()
+          await handleUsers((prev) =>
+            prev.map((ussr) => (ussr.uid === user.uid ? user : ussr)),
+          )
         }
-      });
+      })
 
       // User Unpublished
-      client.on("user-unpublished", async (user, mediaType) => {
-        if (mediaType === "audio") {
-          if (user.audioTrack) user.audioTrack?.stop();
+      client.on('user-unpublished', async (user, mediaType) => {
+        if (mediaType === 'audio') {
+          if (user.audioTrack) user.audioTrack.stop()
           if (user.videoTrack)
-            await handleUsers((prev) => {
-              return prev.map((ussr) => (ussr.uid === user.uid ? user : ussr));
-            });
+            await handleUsers((prev) =>
+              prev.map((ussr) => (ussr.uid === user.uid ? user : ussr)),
+            )
         }
-        if (mediaType === "video") {
-          handleUsers((users) => users.filter((u) => u.uid !== user.uid));
+        if (mediaType === 'video') {
+          handleUsers((prevUsers) =>
+            prevUsers.filter((u) => u.uid !== user.uid),
+          )
         }
-      });
+      })
 
       // User Left
-      client.on("user-left", (user) => {
-        handleUsers((users) => users.filter((u) => u.uid !== user.uid));
-        setUsersInCall((arr) => arr.filter((u) => u.uid !== user.uid));
-      });
+      client.on('user-left', (user) => {
+        handleUsers((prevUsers) => prevUsers.filter((u) => u.uid !== user.uid))
+        setUsersInCall((arr) => arr.filter((u) => u.uid !== user.uid))
+      })
 
       // Join Channel
       try {
-        await client.join(config.appId, name, config.token, null);
+        await client.join(config.appId, name, config.token, null)
       } catch (err) {
-        console.log(err);
+        console.log(err)
       }
 
       // Publish Tracks
-      if (tracks) await client.publish([tracks[0], tracks[1]]);
+      if (tracks) await client.publish([tracks[0], tracks[1]])
 
       // Set Start
-      setStart(true);
-    };
+      setStart(true)
+    }
 
     // Initialize
     if (ready && tracks) {
       try {
-        await init(channelName);
-        setIsLoading(false);
+        await init(channelName)
+        setIsLoading(false)
       } catch (err) {
-        console.log(err);
+        console.log(err)
       }
     }
-  }, [channelName, client, ready, tracks]);
+  }, [channelName, client, ready, tracks])
 
-  if (isLoading) return <Loading />;
+  if (isLoading) return <Loading />
 
   return (
     <Grid container direction="row" className={classes.root} gap={2}>
@@ -150,10 +158,10 @@ const VideoCall = ({
         )}
       </Grid>
     </Grid>
-  );
-};
+  )
+}
 
-export default VideoCall;
+export default VideoCall
 
 VideoCall.propTypes = {
   handleInCall: PropTypes.func.isRequired,
@@ -161,4 +169,4 @@ VideoCall.propTypes = {
   handleUsers: PropTypes.func.isRequired,
   userName: PropTypes.string.isRequired,
   handleSignOut: PropTypes.func.isRequired,
-};
+}

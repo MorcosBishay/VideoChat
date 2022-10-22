@@ -1,11 +1,11 @@
-import React from "react";
-import CircularProgress from "@mui/material/CircularProgress";
-import { ReactComponent as Logo } from "../../assets/vite.svg";
-import styles from "./styles";
-import useClasses from "../../hooks/useClasses";
+import React from 'react'
+import CircularProgress from '@mui/material/CircularProgress'
+import { ReactComponent as Logo } from '../../assets/vite.svg'
+import styles from './styles'
+import useClasses from '../../hooks/useClasses'
 
 export default function Loading() {
-  const classes = useClasses(styles);
+  const classes = useClasses(styles)
 
   return (
     <div className={classes.root}>
@@ -22,5 +22,5 @@ export default function Loading() {
         <Logo className={classes.logo} />
       </div>
     </div>
-  );
+  )
 }

@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
-import { firestore } from "../../config/firebase";
+/* eslint-disable react/require-default-props */
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useState, useEffect } from 'react'
+import PropTypes from 'prop-types'
 import {
   collection,
   addDoc,
@@ -9,32 +10,33 @@ import {
   query,
   orderBy,
   limit,
-} from "firebase/firestore";
-import Message from "./Message";
-import { Button, Grid, TextField, Typography } from "@mui/material";
-import styles from "./styles";
-import useClasses from "../../hooks/useClasses";
-import Loading from "../Loading/Loading";
+} from 'firebase/firestore'
+import { Button, Grid, TextField, Typography } from '@mui/material'
+import { firestore } from '../../config/firebase'
+import Message from './Message'
+import styles from './styles'
+import useClasses from '../../hooks/useClasses'
+import Loading from '../Loading/Loading'
 
-const Channel = ({ user, userName }) => {
-  const classes = useClasses(styles);
+function Channel({ user, userName }) {
+  const classes = useClasses(styles)
 
-  const messageRef = collection(firestore, "messages");
-  const q = query(messageRef, orderBy("createdAt"), limit(100));
+  const messageRef = collection(firestore, 'messages')
+  const q = query(messageRef, orderBy('createdAt'), limit(100))
 
-  const [messages, setMessages] = useState([]);
-  const [newMessage, setNewMessage] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
+  const [messages, setMessages] = useState([])
+  const [newMessage, setNewMessage] = useState('')
+  const [isLoading, setIsLoading] = useState(true)
 
   const handleOnChange = (e) => {
-    setNewMessage(e.target.value);
-  };
+    setNewMessage(e.target.value)
+  }
 
   const handleOnSubmit = async (e) => {
-    e.preventDefault();
-    const trimmedMessage = newMessage.trim();
+    e.preventDefault()
+    const trimmedMessage = newMessage.trim()
     // Clear input field
-    setNewMessage("");
+    setNewMessage('')
     if (trimmedMessage) {
       // Add new message in Firestore
       await addDoc(messageRef, {
@@ -42,22 +44,25 @@ const Channel = ({ user, userName }) => {
         createdAt: Timestamp.fromDate(new Date()),
         uid: user.uid,
         displayName: userName,
-      });
+      })
     }
-  };
+  }
 
-  useEffect(async () => {
-    const querySnapshot = await getDocs(q);
-    setMessages(
-      querySnapshot.docs.map((doc) => ({
-        ...doc.data(),
-        id: doc.id,
-      }))
-    );
-    setIsLoading(false);
-  }, [handleOnSubmit]);
+  useEffect(() => {
+    async function getMessages() {
+      const querySnapshot = await getDocs(q)
+      setMessages(
+        querySnapshot.docs.map((doc) => ({
+          ...doc.data(),
+          id: doc.id,
+        })),
+      )
+      setIsLoading(false)
+    }
+    getMessages()
+  }, [handleOnSubmit])
 
-  if (isLoading) return <Loading />;
+  if (isLoading) return <Loading />
 
   return (
     <>
@@ -112,12 +117,12 @@ const Channel = ({ user, userName }) => {
         </form>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default Channel;
+export default Channel
 
 Channel.propTypes = {
   user: PropTypes.object.isRequired || PropTypes.bool.isRequired,
   userName: PropTypes.string.isRequired,
-};
+}

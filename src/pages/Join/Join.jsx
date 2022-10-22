@@ -1,17 +1,19 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { Button, Grid, Paper, TextField, Typography } from "@mui/material";
-import styles from "./styles";
-import useClasses from "../../hooks/useClasses";
+/* eslint-disable no-alert */
+/* eslint-disable no-undef */
+import React from 'react'
+import PropTypes from 'prop-types'
+import { Button, Grid, Paper, TextField, Typography } from '@mui/material'
+import styles from './styles'
+import useClasses from '../../hooks/useClasses'
 
-const Join = ({
+function Join({
   usersNumber,
   handleInCall,
   setUserName,
   userName,
   handleSignIn,
-}) => {
-  const classes = useClasses(styles);
+}) {
+  const classes = useClasses(styles)
 
   return (
     <Grid
@@ -50,10 +52,10 @@ const Join = ({
                 className={classes.joinButton}
                 onClick={() => {
                   if (usersNumber < 3) {
-                    handleInCall(true);
-                    handleSignIn();
+                    handleInCall(true)
+                    handleSignIn()
                   } else {
-                    alert("The maximum of 4 users has been reached");
+                    alert('The maximum of 4 users has been reached')
                   }
                 }}
               >
@@ -64,10 +66,10 @@ const Join = ({
         </Grid>
       </Paper>
     </Grid>
-  );
-};
+  )
+}
 
-export default Join;
+export default Join
 
 Join.propTypes = {
   usersNumber: PropTypes.number.isRequired,
@@ -75,4 +77,4 @@ Join.propTypes = {
   setUserName: PropTypes.func.isRequired,
   userName: PropTypes.string.isRequired,
   handleSignIn: PropTypes.func.isRequired,
-};
+}
