@@ -28,7 +28,7 @@ Use any of the 2 network links to use the app from any device which shares the s
 
 3- Global access:
 
-***Open a new terminal while the previous one is still running and run the following commands***
+***Open a new terminal in the project root directory while the previous one is still running and run the following commands***
 
 ```
 1- ./ngrok config add-authtoken <YOUR-NGROK-TOKEN>
